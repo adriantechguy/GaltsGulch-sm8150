@@ -605,7 +605,7 @@ static int _sde_connector_update_hbm(struct sde_connector *c_conn)
 		}
 
 	if (fingerprint_mode != dsi_display->panel->is_hbm_enabled) {
-		//struct drm_encoder *drm_enc = c_conn->encoder;
+		struct drm_encoder *drm_enc = c_conn->encoder;
 		dsi_display->panel->is_hbm_enabled = fingerprint_mode;
 		if (fingerprint_mode) {
 			HBM_flag=true;
@@ -625,7 +625,8 @@ static int _sde_connector_update_hbm(struct sde_connector *c_conn)
 				pr_debug("qdt aod off\n");
 			}
 			else {
-				//sde_encoder_poll_line_counts(drm_enc);
+				sde_encoder_poll_line_counts(drm_enc);
+				usleep_range(9500, 12000);
 				rc = dsi_panel_tx_cmd_set(dsi_display->panel, DSI_CMD_SET_HBM_ON_5);
 				pr_debug("Send DSI_CMD_SET_HBM_ON_5 cmds\n");
 			}
